@@ -1,0 +1,20 @@
+{
+  "users": [
+    {
+      "id": 1,
+	  "username": "admin",
+	  "password": "admin",
+	  "firstname": "Nguyen",
+	  "lastname": "Hang",
+	  "role": "Role.Admin"
+    },
+	{
+      "id": 2,
+	  "username": "user",
+	  "password": "user",
+	  "firstname": "Duong",
+	  "lastname": "Hang",
+	  "role": "Role.User"
+    }
+  ]
+}
