@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthenticationService} from "../../_service/authentication.service";
 import {first} from "rxjs/operators";
+import {AlertService} from "../../_service/alert.service";
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private alertService: AlertService
   ) {
     if ( this.authenticationService.currentUserValue ) {
       this.router.navigate(['/']);
@@ -41,20 +43,25 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
 
+    // TODO: reset alerts on submit
+    this.alertService.clear();
     // TODO: stop here if from is invalid
     if (this.loginForm.invalid) {
       return;
     }
 
     this.loading = true;
-    this.authenticationService.login(this.f.username.value, this.f.password.value)
+    debugger;
+    this.authenticationService.login( this.f.username.value, this.f.password.value )
       .pipe( first())
       .subscribe(
         data => {
           this.router.navigate([this.returnUrl]);
+          debugger;
         },
         error => {
           this.error = error;
+          this.alertService.error( error );
           this.loading = false;
         }
       );
