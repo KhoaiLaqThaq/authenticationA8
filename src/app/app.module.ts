@@ -1,4 +1,3 @@
-/* tslint:disable */
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -12,7 +11,6 @@ import {HomeComponent} from "./+component/home";
 import {ErrorInterceptor, fakeBackendProvider, JwtInterceptor} from "./_helpers";
 import { AlertComponent } from './+component/alert/alert.component';
 import { RegisterComponent } from './+component/register/register.component';
-import { ValidatorComponent } from './+component/form/validator/validator.component';
 
 
 @NgModule({
@@ -22,8 +20,7 @@ import { ValidatorComponent } from './+component/form/validator/validator.compon
     LoginComponent,
     HomeComponent,
     AlertComponent,
-    RegisterComponent,
-    ValidatorComponent
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

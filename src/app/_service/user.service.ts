@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {User} from '../_model/user';
-import {environment} from '../../environments/environment';
+import {HttpClient} from "@angular/common/http";
+import {User} from "../_model/user";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class UserService {
   }
 
   delete( id: number ) {
-    return this.http.delete(`${environment.JSON_SERVER}/users/${ id }`);
+    return this.http.delete(`${environment.JSON_SERVER}/users/${ id }`)
   }
 
   register( user: User ) {
