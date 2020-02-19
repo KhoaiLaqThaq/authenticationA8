@@ -1,4 +1,4 @@
-import {Injectable} from "@angular/core";
+import {Injectable} from '@angular/core';
 import {
   HTTP_INTERCEPTORS,
   HttpEvent,
@@ -6,16 +6,16 @@ import {
   HttpInterceptor,
   HttpRequest,
   HttpResponse
-} from "@angular/common/http";
-import {Observable, of, throwError} from "rxjs";
-import {User} from "../_model/user";
-import {Role} from "../_model/role";
-import {delay, dematerialize, materialize, mergeMap} from "rxjs/operators";
+} from '@angular/common/http';
+import {Observable, of, throwError} from 'rxjs';
+import {User} from '../_model/user';
+import {Role} from '../_model/role';
+import {delay, dematerialize, materialize, mergeMap} from 'rxjs/operators';
 
 
 const users: User[] = [
-  { id: 1, username: 'admin', password: 'admin', firstname: 'Admin', lastname: 'My', role: Role.Admin},
-  { id: 2, username: 'user', password: '123123', firstname: 'User', lastname: 'My', role: Role.User},
+  { id: 1, username: 'admin', password: 'admin', firstName: 'Admin', lastName: 'My', role: Role.Admin, age: '2000-12-12'},
+  { id: 2, username: 'user', password: '123123', firstName: 'User', lastName: 'My', role: Role.User, age: '1996-11-11'},
 ];
 
 @Injectable()
@@ -31,16 +31,22 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       .pipe(dematerialize());
 
     function handleRoute() {
+      debugger;
       switch (true) {
         case url.endsWith('/users/authenticate') && method === 'POST':
+          debugger;
           return authenticate();
         case url.endsWith('/users/register') && method === 'POST':
+          debugger;
           return register();
-        case url.endsWith('/users') && method === "GET":
+        case url.endsWith('/users') && method === 'GET':
+          debugger;
           return getUsers();
         case url.match(/\/users\/\d+$/) && method === 'GET':
+          debugger;
           return getUserById();
         default:
+          debugger;
           return next.handle(request);
       }
     }
@@ -62,26 +68,26 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     function authenticate() {
       const { username, password } = body;
       const user = users.find(x => x.username === username && x.password === password);
-      if (!user) return error('Username or password is incorrect');
+      if (!user) { return error('Username or password is incorrect'); }
       return ok({
         id: user.id,
         username: user.username,
-        firstName: user.firstname,
-        lastName: user.lastname,
+        firstName: user.firstName,
+        lastName: user.lastName,
         role: user.role,
         token: `fake-jwt-token.${user.id}`
       });
     }
 
     function getUsers() {
-      if (!isAdmin()) return unauthorised();
+      if (!isAdmin()) { return unauthorised(); }
       return ok( users );
     }
 
     function getUserById() {
-      if (!isLoggedIn()) return unauthorised();
+      if (!isLoggedIn()) { return unauthorised(); }
 
-      if (!isAdmin() && currentUser().id !== idFromUrl()) return unauthorised();
+      if (!isAdmin() && currentUser().id !== idFromUrl()) { return unauthorised(); }
 
       const user = users.find(x => x.id === idFromUrl());
       return ok(user);
@@ -97,7 +103,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     }
 
     function currentUser() {
-      if(!isLoggedIn()) return;
+      if (!isLoggedIn()) { return; }
 
       const id = parseInt(headers.get('Authorization').split('.')[1]);
       return users.find(x => x.id === id);
@@ -109,7 +115,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     }
 
     function ok( body? ) {
-      return of(new HttpResponse({ status: 200, body }))
+      return of(new HttpResponse({ status: 200, body }));
     }
 
     function unauthorised() {
