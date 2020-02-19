@@ -5,11 +5,7 @@
     <p class="mb-1">All users from secure (admin only) api end point:</p>
     <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
     <ul *ngIf="users">
-      <li *ngFor="let user of users">{{user.firstName}} {{user.lastName}}</li>
+      <li *ngFor="let user of users">{{user.firstname}} {{user.lastname}}</li>
     </ul>
-    <div *ngFor="let user of users">
-      <a [routerLink]="['users', user.id]">{{user.firstName}} {{user.lastName}}</a>
-
-    </div>
   </div>
 </div>

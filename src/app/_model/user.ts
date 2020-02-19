@@ -3,9 +3,8 @@ export class User {
   id: number;
   username: string;
   password: string;
-  firstName: string;
-  lastName: string;
+  firstname: string;
+  lastname: string;
   role: string;
   token?: string;
-  age: any;
 }
