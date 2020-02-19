@@ -1,6 +1,6 @@
-import {Injectable} from "@angular/core";
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
-import {AuthenticationService} from "../_service/authentication.service";
+import {Injectable} from '@angular/core';
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
+import {AuthenticationService} from '../_service/authentication.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
@@ -16,7 +16,7 @@ export class AuthGuard implements CanActivate {
 
     if ( currentUser ) {
       // TODO: check if route is restricted by role
-      if( route.data.roles && route.data.roles.indexOf( currentUser.role ) === -1 ) {
+      if ( route.data.roles && route.data.roles.indexOf( currentUser.role ) === -1 ) {
         // TODO: role not authorised so redirect to home page
         this.router.navigate(['/']);
 
