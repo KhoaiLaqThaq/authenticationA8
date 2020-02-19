@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
-import {AuthenticationService} from "../../_service/authentication.service";
-import {first} from "rxjs/operators";
-import {AlertService} from "../../_service/alert.service";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AuthenticationService} from '../../_service/authentication.service';
+import {first} from 'rxjs/operators';
+import {AlertService} from '../../_service/alert.service';
 
 @Component({
   selector: 'app-login',
@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
     });
     // TODO: get return url from route params of default to '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
   }
 
   get f() { return this.loginForm.controls; }
@@ -51,6 +51,7 @@ export class LoginComponent implements OnInit {
     }
 
     this.loading = true;
+    // tslint:disable-next-line:no-debugger
     debugger;
     this.authenticationService.login( this.f.username.value, this.f.password.value )
       .pipe( first())

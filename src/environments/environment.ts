@@ -6,7 +6,7 @@ const JSON_SERVER = `http://localhost:4000`;
 
 export const environment = {
   production: false,
-  JSON_SERVER: JSON_SERVER
+  JSON_SERVER
 };
 
 /*
