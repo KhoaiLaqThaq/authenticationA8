@@ -1,7 +1,7 @@
 import { FormGroup } from '@angular/forms';
 
 export function MustMatch(controlName: string, matchingControlName: string) {
-    return ( formGroup : FormGroup ) => {
+    return ( formGroup: FormGroup ) => {
         const control = formGroup.controls[controlName];
         const matchingControl = formGroup.controls[matchingControlName];
 
@@ -9,10 +9,10 @@ export function MustMatch(controlName: string, matchingControlName: string) {
             return;
         }
 
-        if (control.value != matchingControl.value) {
+        if (control.value !== matchingControl.value) {
             matchingControl.setErrors({mustMatch: true});
         } else {
             matchingControl.setErrors(null);
         }
-    }
+    };
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {MustMatch} from '../../../_service/must-match';
 
 @Component({
   selector: 'app-validator',
@@ -9,8 +10,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class ValidatorComponent implements OnInit {
 
   registerForm: FormGroup;
-  loading: boolean = false;
-  submitted: boolean = false;
+  loading = false;
+  submitted = false;
 
   constructor(
     private formBuilder: FormBuilder
@@ -21,12 +22,13 @@ export class ValidatorComponent implements OnInit {
       title: ['', Validators.required],
       fullName: ['', Validators.required],
       userName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       gender: ['', Validators.required],
       age: ['', [Validators.required, Validators.min(0), Validators.max(100)]],
-      password: ['', Validators.required],
-      confirmPassword: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
       acceptTerms: [false, Validators.requiredTrue]
-    },{
+    }, {
       validator: MustMatch('password', 'confirmPassword')
     });
   }
