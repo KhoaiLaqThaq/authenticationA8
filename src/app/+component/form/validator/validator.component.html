@@ -1,1 +1,16 @@
-<p>validator works!</p>
+<div class="card m-3">
+  <h5 class="card-header">Validator Angular 8</h5>
+  <div class="card-body">
+    <form [formGroup]="registerForm" (submit)="onSubmit()">
+      <div class="form-row">
+        <div class="form-group col">
+          <label>Title</label>
+          <select [formControlName]="title" class="form-control"
+                  ngClass="{'is-invalid': submitted && f.title.errors}" id="">
+
+          </select>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
