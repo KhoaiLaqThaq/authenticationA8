@@ -9,8 +9,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class ValidatorComponent implements OnInit {
 
   registerForm: FormGroup;
-  loading: false;
-  submitted: false;
+  loading: boolean = false;
+  submitted: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder
@@ -22,13 +22,28 @@ export class ValidatorComponent implements OnInit {
       fullName: ['', Validators.required],
       userName: ['', Validators.required],
       gender: ['', Validators.required],
-      age: ['', [Validators.required, Validators.min(0), Validators.max(100)]]
+      age: ['', [Validators.required, Validators.min(0), Validators.max(100)]],
+      password: ['', Validators.required],
+      confirmPassword: ['', Validators.required],
+      acceptTerms: [false, Validators.requiredTrue]
+    },{
+      validator: MustMatch('password', 'confirmPassword')
     });
   }
 
   // TODO: access into form field
   get f() { return this.registerForm.controls; }
 
+  onSubmit() {
+    this.submitted = true;
+    if (this.registerForm.invalid) {
+      return;
+    }
+    alert ('SUCCESS ' + JSON.stringify(this.registerForm.value, null, 4));
+  }
 
-
+  onReset() {
+    this.submitted = false;
+    this.registerForm.reset();
+  }
 }

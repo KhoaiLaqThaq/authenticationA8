@@ -44,3 +44,5 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+ngserve.bat
+src/app/app.component.ts.rej
