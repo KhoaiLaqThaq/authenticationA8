@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, Observable, of} from 'rxjs';
 import {User} from '../_model/user';
 import {HttpClient} from '@angular/common/http';
-import {map} from 'rxjs/operators';
+import {catchError, map, tap} from 'rxjs/operators';
 
 import {environment} from '../../environments/environment';
+import {ok} from 'assert';
 
 @Injectable({
   providedIn: 'root'
@@ -23,18 +24,29 @@ export class AuthenticationService {
   }
 
   // TODO: Login service
-  login( username: string, password: string ) {
-    return this.http.post<any>(`${environment.JSON_SERVER}/users/authenticate`, {username, password})
+  login( username: string, password: string ): Observable<User> {
+    const url = `${environment.JSON_SERVER}/users?username=${username}&password=${password}`;
+    // console.log(`------------ ${url}`);
+    // debugger;
+    return this.http.get<User>(url)
       .pipe(
-        map( user => {
-          // TODO: login successful if there's a jwt token in the response
-          if ( user && user.token ) {
-            // TODO: store user details and jwt token in local storage to keep user logged in between page refreshes
+        tap( user => {
+          // if ( user && user.token ) {
+          //   debugger;
             localStorage.setItem('currentUser', JSON.stringify(user));
             this.currentUserSubject.next(user);
-          }
-          return user;
-        })
+          // }
+          // debugger;
+            return ok({
+              id: user.id,
+              username: user.username,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              role: user.role,
+              token: `fake-jwt-token.${user.id}`
+          });
+        }),
+        catchError(err => of(new User()))
       );
   }
 

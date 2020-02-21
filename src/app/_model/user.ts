@@ -7,5 +7,4 @@ export class User {
   lastName: string;
   role: string;
   token?: string;
-  age: any;
 }

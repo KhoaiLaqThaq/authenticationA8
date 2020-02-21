@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {User} from '../_model/user';
 import {environment} from '../../environments/environment';
+import {Observable, of} from 'rxjs';
+import {catchError, tap} from 'rxjs/operators';
+
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json'
+  })
+}
 
 @Injectable({
   providedIn: 'root'
@@ -10,19 +18,42 @@ export class UserService {
 
   constructor( private http: HttpClient ) { }
 
-  getAllUsers() {
-    return this.http.get<User[]>( `${ environment.JSON_SERVER }/users`);
+  getAllUsers(): Observable<User[]> {
+    return this.http.get<User[]>( `${ environment.JSON_SERVER }/users`).pipe(
+      tap(),
+      catchError(err => of([]))
+    );
   }
 
-  getUserById( id: number ) {
-    return this.http.get<User>(`${ environment.JSON_SERVER }/users/${ id }`);
+  getUserById( id: number ): Observable<User> {
+    return this.http.get<User>(`${ environment.JSON_SERVER }/users/${ id }`)
+      .pipe(
+        tap(user => console.log(`user = ${JSON.stringify(user)}`)),
+        catchError(err => of(new User()))
+      );
   }
 
-  delete( id: number ) {
-    return this.http.delete(`${environment.JSON_SERVER}/users/${ id }`);
+  delete( id: number ): Observable<User> {
+    return this.http.delete(`${environment.JSON_SERVER}/users/${ id }`, httpOptions)
+      .pipe(
+        tap(_ => console.log(`DELETE Success`)),
+        catchError(err => of(null))
+      );
   }
 
-  register( user: User ) {
-    return this.http.post(`${environment.JSON_SERVER}/users/register`, user);
+  update(updateUser: User): Observable<User> {
+    return this.http.put(`${environment.JSON_SERVER}/users/${updateUser.id}`, updateUser, httpOptions )
+      .pipe(
+        tap((user: User) => console.log(`Update user ${JSON.stringify(user)}`)),
+        catchError(err => of(new User()))
+      );
+  }
+
+  register( newUser: User ): Observable<User> {
+    return this.http.post<User>( `${environment.JSON_SERVER}/users`, newUser, httpOptions)
+      .pipe(
+        tap( (user: User) => console.log('new user', user)),
+        catchError(err => of(new User()))
+      );
   }
 }

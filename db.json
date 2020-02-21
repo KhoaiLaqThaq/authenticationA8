@@ -2,27 +2,27 @@
   "users": [
     {
       "id": 1,
-	  "username": "admin",
-	  "password": "admin",
-	  "firstName": "Nguyen",
-	  "lastName": "Hang",
-	  "role": "Role.Admin"
+      "username": "admin",
+      "password": "admin",
+      "firstName": "Nguyen",
+      "lastName": "Hang",
+      "role": "Role.Admin"
     },
-	{
-      "id": 2,
-	  "username": "user",
-	  "password": "user",
-	  "firstName": "Duong",
-	  "lastName": "Hang",
-	  "role": "Role.User"
+    {
+      "id": 3,
+      "username": "hangnv",
+      "password": "123123",
+      "firstName": "hangnv",
+      "lastName": "nguyen",
+      "role": "Role.Manager"
     },
-    	{
-	"id": 3,
-	"username": "hangnv",
-	"password": "123123",
-	"firstName": "hangnv",
-	"lastName": "nguyen",
-	"role": "Role.Manager"
+    {
+      "firstName": "hangnv",
+      "lastName": "nguyen",
+      "username": "hangnv",
+      "password": "123123",
+      "role": "Role.User",
+      "id": 5
     }
   ]
 }

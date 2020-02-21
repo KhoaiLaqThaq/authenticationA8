@@ -26,7 +26,7 @@ export class ValidatorComponent implements OnInit {
       gender: ['', Validators.required],
       age: ['', [Validators.required, Validators.min(0), Validators.max(100)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', Validators.required],
       acceptTerms: [false, Validators.requiredTrue]
     }, {
       validator: MustMatch('password', 'confirmPassword')
@@ -41,6 +41,7 @@ export class ValidatorComponent implements OnInit {
     if (this.registerForm.invalid) {
       return;
     }
+    debugger;
     alert ('SUCCESS ' + JSON.stringify(this.registerForm.value, null, 4));
   }
 

@@ -8,18 +8,25 @@ import {
   HttpResponse
 } from '@angular/common/http';
 import {Observable, of, throwError} from 'rxjs';
-import {User} from '../_model/user';
-import {Role} from '../_model/role';
 import {delay, dematerialize, materialize, mergeMap} from 'rxjs/operators';
 
-
-const users: User[] = [
-  { id: 1, username: 'admin', password: 'admin', firstName: 'Admin', lastName: 'My', role: Role.Admin, age: '2000-12-12'},
-  { id: 2, username: 'user', password: '123123', firstName: 'User', lastName: 'My', role: Role.User, age: '1996-11-11'},
-];
+import {User} from '../_model/user';
+import {Role} from '../_model/role';
+import {UserService} from '../_service';
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
+  users: User[];
+
+  constructor(
+    private userService: UserService
+  ) {
+    this.getAllUser();
+  }
+
+  getAllUser(): void {
+    this.userService.getAllUsers().subscribe(receivedUsers => this.users = receivedUsers);
+  }
 
   intercept( request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const { url, method, headers, body } = request;
@@ -31,43 +38,24 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       .pipe(dematerialize());
 
     function handleRoute() {
-      debugger;
       switch (true) {
-        case url.endsWith('/users/authenticate') && method === 'POST':
-          debugger;
+        case url.endsWith('/users**') && method === 'GET':
           return authenticate();
-        case url.endsWith('/users/register') && method === 'POST':
+        /*case url.endsWith('/users/register') && method === 'POST':
           debugger;
-          return register();
-        case url.endsWith('/users') && method === 'GET':
-          debugger;
-          return getUsers();
+          return register();*/
+       /* case url.endsWith('/users') && method === 'GET':
+          return getUsers();*/
         case url.match(/\/users\/\d+$/) && method === 'GET':
-          debugger;
           return getUserById();
         default:
-          debugger;
           return next.handle(request);
       }
     }
 
-    function register() {
-      const user = body;
-
-      if (users.find(x => x.username === user.username)) {
-        return error('Username "' + user.name + '" is already take');
-      }
-
-      user.id = users.length ? Math.max(...users.map(x => x.id)) + 1 : 1;
-      users.push(user);
-      localStorage.setItem('users', JSON.stringify(users));
-
-      return ok();
-    }
-
     function authenticate() {
       const { username, password } = body;
-      const user = users.find(x => x.username === username && x.password === password);
+      const user = this.users.find(x => x.username === username && x.password === password);
       if (!user) { return error('Username or password is incorrect'); }
       return ok({
         id: user.id,
@@ -81,7 +69,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     function getUsers() {
       if (!isAdmin()) { return unauthorised(); }
-      return ok( users );
+      return ok( this.users );
     }
 
     function getUserById() {
@@ -89,7 +77,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
       if (!isAdmin() && currentUser().id !== idFromUrl()) { return unauthorised(); }
 
-      const user = users.find(x => x.id === idFromUrl());
+      const user = this.users.find(x => x.id === idFromUrl());
       return ok(user);
     }
 
@@ -106,7 +94,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       if (!isLoggedIn()) { return; }
 
       const id = parseInt(headers.get('Authorization').split('.')[1]);
-      return users.find(x => x.id === id);
+      return this.users.find(x => x.id === id);
     }
 
     function isLoggedIn() {
