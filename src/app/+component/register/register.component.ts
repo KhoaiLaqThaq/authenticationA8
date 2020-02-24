@@ -52,6 +52,8 @@ export class RegisterComponent implements OnInit {
     }
 
     this.loading = true;
+    console.log('user register: ', this.registerForm.value);
+    this.registerForm.value.role = 'Role.User';
     this.userService.register(this.registerForm.value)
       .pipe(first())
       .subscribe(

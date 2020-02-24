@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+<<<<<<< HEAD
+=======
+import {MustMatch} from '../../../_service/must-match';
+>>>>>>> feature
 
 @Component({
   selector: 'app-validator',
@@ -9,8 +13,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class ValidatorComponent implements OnInit {
 
   registerForm: FormGroup;
+<<<<<<< HEAD
   loading: boolean = false;
   submitted: boolean = false;
+=======
+  loading = false;
+  submitted = false;
+>>>>>>> feature
 
   constructor(
     private formBuilder: FormBuilder
@@ -21,12 +30,22 @@ export class ValidatorComponent implements OnInit {
       title: ['', Validators.required],
       fullName: ['', Validators.required],
       userName: ['', Validators.required],
+<<<<<<< HEAD
       gender: ['', Validators.required],
       age: ['', [Validators.required, Validators.min(0), Validators.max(100)]],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
       acceptTerms: [false, Validators.requiredTrue]
     },{
+=======
+      email: ['', [Validators.required, Validators.email]],
+      gender: ['', Validators.required],
+      age: ['', [Validators.required, Validators.min(0), Validators.max(100)]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', Validators.required],
+      acceptTerms: [false, Validators.requiredTrue]
+    }, {
+>>>>>>> feature
       validator: MustMatch('password', 'confirmPassword')
     });
   }
@@ -39,6 +58,10 @@ export class ValidatorComponent implements OnInit {
     if (this.registerForm.invalid) {
       return;
     }
+<<<<<<< HEAD
+=======
+    debugger;
+>>>>>>> feature
     alert ('SUCCESS ' + JSON.stringify(this.registerForm.value, null, 4));
   }
 

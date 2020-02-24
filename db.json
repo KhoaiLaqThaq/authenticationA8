@@ -2,6 +2,7 @@
   "users": [
     {
       "id": 1,
+<<<<<<< HEAD
 	  "username": "admin",
 	  "password": "admin",
 	  "firstName": "Nguyen",
@@ -23,6 +24,29 @@
 	"firstName": "hangnv",
 	"lastName": "nguyen",
 	"role": "Role.Manager"
+=======
+      "username": "admin",
+      "password": "admin",
+      "firstName": "Nguyen",
+      "lastName": "Hang",
+      "role": "Role.Admin"
+    },
+    {
+      "id": 3,
+      "username": "hangnv",
+      "password": "123123",
+      "firstName": "hangnv",
+      "lastName": "nguyen",
+      "role": "Role.Manager"
+    },
+    {
+      "firstName": "hangnv",
+      "lastName": "nguyen",
+      "username": "hangnv",
+      "password": "123123",
+      "role": "Role.User",
+      "id": 5
+>>>>>>> feature
     }
   ]
 }
